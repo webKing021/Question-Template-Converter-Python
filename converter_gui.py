@@ -216,24 +216,35 @@ def _read_question_records(input_path: Path) -> Tuple[List[QuestionRecord], List
     current_question: Dict[str, str] | None = None
     current_answers: List[Dict[str, str]] = []
 
-    with input_path.open("r", encoding="utf-8-sig", newline="") as csv_file:
-        reader = csv.DictReader(csv_file)
-        for row in reader:
-            tnpe = _get_field(row, "TNpe", "Type").upper()
-            if not tnpe:
-                continue
-            if tnpe == "Q":
-                if current_question is not None:
-                    questions.append(QuestionRecord(current_question, current_answers))
-                current_question = row
-                current_answers = []
-            elif tnpe == "A":
-                if current_question is None:
-                    warnings.append("Encountered answer row before any question row; skipping answer.")
-                    continue
-                current_answers.append(row)
-            else:
-                warnings.append(f"Unrecognized TNpe value '{tnpe}' encountered; row skipped.")
+    # Try multiple encodings to handle different file formats
+    encodings = ['utf-8-sig', 'utf-8', 'latin-1', 'cp1252', 'iso-8859-1']
+    
+    for encoding in encodings:
+        try:
+            with input_path.open("r", encoding=encoding, newline="") as csv_file:
+                reader = csv.DictReader(csv_file)
+                for row in reader:
+                    tnpe = _get_field(row, "TNpe", "Type").upper()
+                    if not tnpe:
+                        continue
+                    if tnpe == "Q":
+                        if current_question is not None:
+                            questions.append(QuestionRecord(current_question, current_answers))
+                        current_question = row
+                        current_answers = []
+                    elif tnpe == "A":
+                        if current_question is None:
+                            warnings.append("Encountered answer row before any question row; skipping answer.")
+                            continue
+                        current_answers.append(row)
+                    else:
+                        warnings.append(f"Unrecognized TNpe value '{tnpe}' encountered; row skipped.")
+            break  # Successfully read with this encoding
+        except UnicodeDecodeError:
+            continue
+    else:
+        # If all encodings fail, raise an error
+        raise UnicodeDecodeError("Failed to read CSV file with any supported encoding")
 
     if current_question is not None:
         questions.append(QuestionRecord(current_question, current_answers))
