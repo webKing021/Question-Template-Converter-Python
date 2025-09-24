@@ -1,0 +1,16 @@
+SectionNo,TNpe,Description,IsImage,ImagePath,IsRightAnswer,"QuestionTNpe(R=Radio,C=Checkbox,L=Onelinner)",Marks,UNIT,LEVEL,EASY,,,,,,
+1,Q,C++ is ,N,,,R,1,1,,MODREATE,,,,,,1
+1,A,Low Level Language,N,,N,,,,,DIFFICULT,,,,Easy,,2
+1,A,High Level Language,N,,Y,,,,,,,,,Moderate,,3
+1,A,Middle Level Language,N,,N,,,,,,,,,Difficult,,4
+1,A,None of the above,N,,N,,,,,,,,,,,5
+1,Q,The C++ langauge is,N,,,R,1,1,,MODREATE,,,,,,1
+1,A,Object Oriented,N,,Y,,,,,DIFFICULT,,,,Easy,,2
+1,A,Procedural,N,,N,,,,,,,,,Moderate,,3
+1,A,Scripting,N,,N,,,,,,,,,Difficult,,4
+1,A,None of the above,N,,N,,,,,,,,,,,5
+1,Q,C++ offers,N,,,R,1,1,,MODREATE,,,,,,1
+1,A,High Security,N,,Y,,,,,DIFFICULT,,,,Easy,,2
+1,A,Low Security,N,,N,,,,,,,,,Moderate,,3
+1,A,Neither High nor Low Security,N,,N,,,,,,,,,Difficult,,4
+1,A,None of the above,N,,N,,,,,,,,,,,5
